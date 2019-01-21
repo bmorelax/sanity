@@ -20,6 +20,7 @@ const mergeStream = require('merge-stream')
 const backstop = require('backstopjs')
 const waitPort = require('wait-port')
 const kill = require('kill-port')
+const isCI = require('is-ci')
 
 const isWindows = /^win/.test(process.platform)
 
@@ -267,8 +268,8 @@ gulp.task('backstop', cb => {
     .then(open => {
       if (open) {
         backstop('test', {
-          docker: true,
-          config: './test/backstop/backstop.js'
+          docker: !isCI,
+          config: isCI ? './test/backstop/backstop_ci.js' : './test/backstop/backstop_local.js'
         })
           .then(() => {
             kill(params.port).then(() => {

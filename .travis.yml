@@ -33,6 +33,12 @@ script:
   - cd $TRAVIS_BUILD_DIR/packages/test-studio
   - sanity build
 
+  # Backstop
+  - cd $TRAVIS_BUILD_DIR/packages/backstop-test-studio
+  - sanity build
+  - cd $TRAVIS_BUILD_DIR
+  - npm run test:backstop
+
   # Test initializing a project in unattended mode
   - cd /tmp
   - sanity init -y --project=ppsg7ml5 --dataset=test --output-path=/tmp/test-project
